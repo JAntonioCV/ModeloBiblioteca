@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="ModelBiblioteca.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="ModelBibliotecaTargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelBiblioteca" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ModelBibliotecaContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Materias" EntityType="ModelBiblioteca.Materia" />
+          <EntitySet Name="Libros" EntityType="ModelBiblioteca.Libro" />
+          <AssociationSet Name="MateriaLibro" Association="ModelBiblioteca.MateriaLibro">
+            <End Role="Materia" EntitySet="Materias" />
+            <End Role="Libro" EntitySet="Libros" />
+          </AssociationSet>
+          <EntitySet Name="Copias" EntityType="ModelBiblioteca.Copia" />
+          <AssociationSet Name="LibroCopia" Association="ModelBiblioteca.LibroCopia">
+            <End Role="Libro" EntitySet="Libros" />
+            <End Role="Copia" EntitySet="Copias" />
+          </AssociationSet>
+          <EntitySet Name="Clientes" EntityType="ModelBiblioteca.Cliente" />
+          <EntitySet Name="Prestamos" EntityType="ModelBiblioteca.Prestamo" />
+          <AssociationSet Name="ClientePrestamo" Association="ModelBiblioteca.ClientePrestamo">
+            <End Role="Cliente" EntitySet="Clientes" />
+            <End Role="Prestamo" EntitySet="Prestamos" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Materia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="String" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" />
+          <NavigationProperty Name="Libros" Relationship="ModelBiblioteca.MateriaLibro" FromRole="Materia" ToRole="Libro" />
+        </EntityType>
+        <EntityType Name="Libro">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="String" Nullable="false" />
+          <Property Name="Titulo" Type="String" Nullable="false" />
+          <Property Name="ISBN" Type="String" Nullable="false" />
+          <Property Name="Autor" Type="String" Nullable="false" />
+          <NavigationProperty Name="Materia" Relationship="ModelBiblioteca.MateriaLibro" FromRole="Libro" ToRole="Materia" />
+          <Property Name="MateriaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Copias" Relationship="ModelBiblioteca.LibroCopia" FromRole="Libro" ToRole="Copia" />
+        </EntityType>
+        <Association Name="MateriaLibro">
+          <End Type="ModelBiblioteca.Materia" Role="Materia" Multiplicity="1" />
+          <End Type="ModelBiblioteca.Libro" Role="Libro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Libro">
+              <PropertyRef Name="MateriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Copia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroCopia" Type="String" Nullable="false" />
+          <NavigationProperty Name="Libro" Relationship="ModelBiblioteca.LibroCopia" FromRole="Copia" ToRole="Libro" />
+          <Property Name="LibroId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="LibroCopia">
+          <End Type="ModelBiblioteca.Libro" Role="Libro" Multiplicity="1" />
+          <End Type="ModelBiblioteca.Copia" Role="Copia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libro">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Copia">
+              <PropertyRef Name="LibroId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="String" Nullable="false" />
+          <Property Name="Nombres" Type="String" Nullable="false" />
+          <Property Name="Apellidos" Type="String" Nullable="false" />
+          <NavigationProperty Name="Prestamos" Relationship="ModelBiblioteca.ClientePrestamo" FromRole="Cliente" ToRole="Prestamo" />
+        </EntityType>
+        <EntityType Name="Prestamo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="String" Nullable="false" />
+          <Property Name="FechaPrestamo" Type="String" Nullable="false" />
+          <Property Name="FechaDevolucion" Type="String" Nullable="false" />
+          <NavigationProperty Name="Cliente" Relationship="ModelBiblioteca.ClientePrestamo" FromRole="Prestamo" ToRole="Cliente" />
+          <Property Name="ClienteId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="ClientePrestamo">
+          <End Type="ModelBiblioteca.Cliente" Role="Cliente" Multiplicity="1" />
+          <End Type="ModelBiblioteca.Prestamo" Role="Prestamo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Prestamo">
+              <PropertyRef Name="ClienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="ModelBiblioteca" />
+        <Alias Key="Target" Value="ModelBiblioteca.Store" />
+        <EntityContainerMapping CdmEntityContainer="ModelBibliotecaContainer" StorageEntityContainer="ModelBibliotecaTargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
