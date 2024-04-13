@@ -10,8 +10,8 @@
         <AssociationConnector Association="ModelBiblioteca.MateriaLibro" />
         <EntityTypeShape EntityType="ModelBiblioteca.Copia" Width="1.5" PointX="6" PointY="0.75" />
         <AssociationConnector Association="ModelBiblioteca.LibroCopia" />
-        <EntityTypeShape EntityType="ModelBiblioteca.Cliente" Width="1.5" PointX="11.5" PointY="1.875" />
-        <EntityTypeShape EntityType="ModelBiblioteca.Prestamo" Width="1.5" PointX="8.625" PointY="1.5" />
+        <EntityTypeShape EntityType="ModelBiblioteca.Cliente" Width="1.5" PointX="12.75" PointY="0.875" />
+        <EntityTypeShape EntityType="ModelBiblioteca.Prestamo" Width="1.5" PointX="10.375" PointY="0.75" />
         <AssociationConnector Association="ModelBiblioteca.ClientePrestamo" />
       </Diagram>
     </edmx:Diagrams>

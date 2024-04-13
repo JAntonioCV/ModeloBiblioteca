@@ -50,6 +50,7 @@
           <Property Name="ISBN" Type="String" Nullable="false" />
           <Property Name="Autor" Type="String" Nullable="false" />
           <NavigationProperty Name="Materia" Relationship="ModelBiblioteca.MateriaLibro" FromRole="Libro" ToRole="Materia" />
+          <Property Name="Activo" Type="String" Nullable="false" />
           <Property Name="MateriaId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Copias" Relationship="ModelBiblioteca.LibroCopia" FromRole="Libro" ToRole="Copia" />
         </EntityType>
@@ -73,6 +74,7 @@
           <Property Name="NumeroCopia" Type="String" Nullable="false" />
           <NavigationProperty Name="Libro" Relationship="ModelBiblioteca.LibroCopia" FromRole="Copia" ToRole="Libro" />
           <Property Name="LibroId" Type="Int32" Nullable="false" />
+          <Property Name="Prestada" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="LibroCopia">
           <End Type="ModelBiblioteca.Libro" Role="Libro" Multiplicity="1" />
