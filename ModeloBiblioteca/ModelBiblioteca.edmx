@@ -30,6 +30,8 @@
             <End Role="Cliente" EntitySet="Clientes" />
             <End Role="Prestamo" EntitySet="Prestamos" />
           </AssociationSet>
+          <EntitySet Name="Autores" EntityType="ModelBiblioteca.Autor" />
+          <EntitySet Name="DetalleAutorLibroSet" EntityType="ModelBiblioteca.DetalleAutorLibro" />
         </EntityContainer>
         <EntityType Name="Materia">
           <Key>
@@ -119,6 +121,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Autor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="DetalleAutorLibro">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
