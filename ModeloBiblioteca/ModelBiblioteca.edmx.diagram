@@ -5,18 +5,21 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="c0294178b9b840a5b1f1546edfe353c2" Name="Diagram1" >
-        <EntityTypeShape EntityType="ModelBiblioteca.Materia" Width="1.875" PointX="1.25" PointY="0.75" />
+        <EntityTypeShape EntityType="ModelBiblioteca.Categoria" Width="1.875" PointX="3.625" PointY="4" />
         <EntityTypeShape EntityType="ModelBiblioteca.Libro" Width="1.5" PointX="3.875" PointY="0.5" />
-        <AssociationConnector Association="ModelBiblioteca.MateriaLibro" />
-        <EntityTypeShape EntityType="ModelBiblioteca.Copia" Width="1.5" PointX="6" PointY="0.75" />
+        <EntityTypeShape EntityType="ModelBiblioteca.Copia" Width="1.5" PointX="6.375" PointY="0.875" />
         <AssociationConnector Association="ModelBiblioteca.LibroCopia" />
         <EntityTypeShape EntityType="ModelBiblioteca.Cliente" Width="1.5" PointX="11.625" PointY="0.75" />
         <EntityTypeShape EntityType="ModelBiblioteca.Prestamo" Width="1.5" PointX="8.625" PointY="0.75" />
         <EntityTypeShape EntityType="ModelBiblioteca.Cliente" Width="1.5" PointX="12.75" PointY="0.875" />
         <EntityTypeShape EntityType="ModelBiblioteca.Prestamo" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ModelBiblioteca.Cliente" Width="1.5" PointX="11.25" PointY="3.875" />
+        <EntityTypeShape EntityType="ModelBiblioteca.Prestamo" Width="1.5" PointX="11.25" PointY="0.75" />
         <AssociationConnector Association="ModelBiblioteca.ClientePrestamo" />
-        <EntityTypeShape EntityType="ModelBiblioteca.Autor" Width="1.5" PointX="3.875" PointY="5.375" />
-        <EntityTypeShape EntityType="ModelBiblioteca.DetalleAutorLibro" Width="1.5" PointX="3.875" PointY="3.625" />
+        <EntityTypeShape EntityType="ModelBiblioteca.DetallePrestamo" Width="1.5" PointX="8.875" PointY="0.875" />
+        <AssociationConnector Association="ModelBiblioteca.PrestamoDetallePrestamo" />
+        <AssociationConnector Association="ModelBiblioteca.CopiaDetallePrestamo" />
+        <AssociationConnector Association="ModelBiblioteca.CategoriaLibro" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

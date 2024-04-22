@@ -13,12 +13,8 @@
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelBiblioteca" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
         <EntityContainer Name="ModelBibliotecaContainer" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Materias" EntityType="ModelBiblioteca.Materia" />
+          <EntitySet Name="Materias" EntityType="ModelBiblioteca.Categoria" />
           <EntitySet Name="Libros" EntityType="ModelBiblioteca.Libro" />
-          <AssociationSet Name="MateriaLibro" Association="ModelBiblioteca.MateriaLibro">
-            <End Role="Materia" EntitySet="Materias" />
-            <End Role="Libro" EntitySet="Libros" />
-          </AssociationSet>
           <EntitySet Name="Copias" EntityType="ModelBiblioteca.Copia" />
           <AssociationSet Name="LibroCopia" Association="ModelBiblioteca.LibroCopia">
             <End Role="Libro" EntitySet="Libros" />
@@ -30,17 +26,28 @@
             <End Role="Cliente" EntitySet="Clientes" />
             <End Role="Prestamo" EntitySet="Prestamos" />
           </AssociationSet>
-          <EntitySet Name="Autores" EntityType="ModelBiblioteca.Autor" />
-          <EntitySet Name="DetalleAutorLibroSet" EntityType="ModelBiblioteca.DetalleAutorLibro" />
+          <EntitySet Name="DetallesPrestamo" EntityType="ModelBiblioteca.DetallePrestamo" />
+          <AssociationSet Name="PrestamoDetallePrestamo" Association="ModelBiblioteca.PrestamoDetallePrestamo">
+            <End Role="Prestamo" EntitySet="Prestamos" />
+            <End Role="DetallePrestamo" EntitySet="DetallesPrestamo" />
+          </AssociationSet>
+          <AssociationSet Name="CopiaDetallePrestamo" Association="ModelBiblioteca.CopiaDetallePrestamo">
+            <End Role="Copia" EntitySet="Copias" />
+            <End Role="DetallePrestamo" EntitySet="DetallesPrestamo" />
+          </AssociationSet>
+          <AssociationSet Name="CategoriaLibro" Association="ModelBiblioteca.CategoriaLibro">
+            <End Role="Categoria" EntitySet="Materias" />
+            <End Role="Libro" EntitySet="Libros" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Materia">
+        <EntityType Name="Categoria">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Codigo" Type="String" Nullable="false" />
           <Property Name="Descripcion" Type="String" Nullable="false" />
-          <NavigationProperty Name="Libros" Relationship="ModelBiblioteca.MateriaLibro" FromRole="Materia" ToRole="Libro" />
+          <NavigationProperty Name="Libros" Relationship="ModelBiblioteca.CategoriaLibro" FromRole="Categoria" ToRole="Libro" />
         </EntityType>
         <EntityType Name="Libro">
           <Key>
@@ -51,23 +58,10 @@
           <Property Name="Titulo" Type="String" Nullable="false" />
           <Property Name="ISBN" Type="String" Nullable="false" />
           <Property Name="Autor" Type="String" Nullable="false" />
-          <NavigationProperty Name="Materia" Relationship="ModelBiblioteca.MateriaLibro" FromRole="Libro" ToRole="Materia" />
-          <Property Name="Activo" Type="String" Nullable="false" />
-          <Property Name="MateriaId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Copias" Relationship="ModelBiblioteca.LibroCopia" FromRole="Libro" ToRole="Copia" />
+          <NavigationProperty Name="Categoria" Relationship="ModelBiblioteca.CategoriaLibro" FromRole="Libro" ToRole="Categoria" />
+          <Property Name="CategoriaId" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="MateriaLibro">
-          <End Type="ModelBiblioteca.Materia" Role="Materia" Multiplicity="1" />
-          <End Type="ModelBiblioteca.Libro" Role="Libro" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Materia">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Libro">
-              <PropertyRef Name="MateriaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Copia">
           <Key>
             <PropertyRef Name="Id" />
@@ -76,7 +70,9 @@
           <Property Name="NumeroCopia" Type="String" Nullable="false" />
           <NavigationProperty Name="Libro" Relationship="ModelBiblioteca.LibroCopia" FromRole="Copia" ToRole="Libro" />
           <Property Name="LibroId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DetallesPrestamo" Relationship="ModelBiblioteca.CopiaDetallePrestamo" FromRole="Copia" ToRole="DetallePrestamo" />
           <Property Name="Prestada" Type="String" Nullable="false" />
+          <NavigationProperty Name="DetallesPrestamo" Relationship="ModelBiblioteca.CopiaDetallePrestamo" FromRole="Copia" ToRole="DetallePrestamo" />
         </EntityType>
         <Association Name="LibroCopia">
           <End Type="ModelBiblioteca.Libro" Role="Libro" Multiplicity="1" />
@@ -110,6 +106,7 @@
           <Property Name="FechaDevolucion" Type="String" Nullable="false" />
           <NavigationProperty Name="Cliente" Relationship="ModelBiblioteca.ClientePrestamo" FromRole="Prestamo" ToRole="Cliente" />
           <Property Name="ClienteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DetallesPrestamo" Relationship="ModelBiblioteca.PrestamoDetallePrestamo" FromRole="Prestamo" ToRole="DetallePrestamo" />
         </EntityType>
         <Association Name="ClientePrestamo">
           <End Type="ModelBiblioteca.Cliente" Role="Cliente" Multiplicity="1" />
@@ -123,18 +120,52 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Autor">
+        <EntityType Name="DetallePrestamo">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Prestamo" Relationship="ModelBiblioteca.PrestamoDetallePrestamo" FromRole="DetallePrestamo" ToRole="Prestamo" />
+          <Property Name="PrestamoId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Copia" Relationship="ModelBiblioteca.CopiaDetallePrestamo" FromRole="DetallePrestamo" ToRole="Copia" />
+          <Property Name="CopiaId" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="DetalleAutorLibro">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
+        <Association Name="PrestamoDetallePrestamo">
+          <End Type="ModelBiblioteca.Prestamo" Role="Prestamo" Multiplicity="1" />
+          <End Type="ModelBiblioteca.DetallePrestamo" Role="DetallePrestamo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prestamo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetallePrestamo">
+              <PropertyRef Name="PrestamoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CopiaDetallePrestamo">
+          <End Type="ModelBiblioteca.Copia" Role="Copia" Multiplicity="1" />
+          <End Type="ModelBiblioteca.DetallePrestamo" Role="DetallePrestamo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Copia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetallePrestamo">
+              <PropertyRef Name="CopiaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CategoriaLibro">
+          <End Type="ModelBiblioteca.Categoria" Role="Categoria" Multiplicity="1" />
+          <End Type="ModelBiblioteca.Libro" Role="Libro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Libro">
+              <PropertyRef Name="CategoriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
