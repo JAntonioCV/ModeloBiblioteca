@@ -70,7 +70,6 @@
           <Property Name="NumeroCopia" Type="String" Nullable="false" />
           <NavigationProperty Name="Libro" Relationship="ModelBiblioteca.LibroCopia" FromRole="Copia" ToRole="Libro" />
           <Property Name="LibroId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DetallesPrestamo" Relationship="ModelBiblioteca.CopiaDetallePrestamo" FromRole="Copia" ToRole="DetallePrestamo" />
           <Property Name="Prestada" Type="String" Nullable="false" />
           <NavigationProperty Name="DetallesPrestamo" Relationship="ModelBiblioteca.CopiaDetallePrestamo" FromRole="Copia" ToRole="DetallePrestamo" />
         </EntityType>
