@@ -91,7 +91,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Codigo" Type="String" Nullable="false" />
+          <Property Name="Cedula" Type="String" Nullable="false" />
           <Property Name="Nombres" Type="String" Nullable="false" />
           <Property Name="Apellidos" Type="String" Nullable="false" />
           <NavigationProperty Name="Prestamos" Relationship="ModelBiblioteca.ClientePrestamo" FromRole="Cliente" ToRole="Prestamo" />
