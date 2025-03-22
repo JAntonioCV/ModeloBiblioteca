@@ -5,19 +5,19 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="c0294178b9b840a5b1f1546edfe353c2" Name="Diagram1" ZoomLevel="82" DisplayType="true" >
-        <EntityTypeShape EntityType="ModelBiblioteca.Categoria" Width="1.5" PointX="3.75" PointY="3.625" FillColor="Green" />
-        <EntityTypeShape EntityType="ModelBiblioteca.Libro" Width="1.5" PointX="3.875" PointY="0.5" FillColor="0, 122, 204" IsExpanded="true" />
-        <EntityTypeShape EntityType="ModelBiblioteca.Copia" Width="1.5" PointX="6.375" PointY="0.875" />
+        <EntityTypeShape EntityType="ModelBiblioteca.Categoria" Width="1.75" PointX="3.75" PointY="3.625" FillColor="Green" />
+        <EntityTypeShape EntityType="ModelBiblioteca.Libro" Width="1.625" PointX="3.875" PointY="0.5" FillColor="0, 122, 204" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelBiblioteca.Copia" Width="1.75" PointX="6.25" PointY="0.875" />
         <AssociationConnector Association="ModelBiblioteca.LibroCopia" />
-        <EntityTypeShape EntityType="ModelBiblioteca.Cliente" Width="1.5" PointX="11.625" PointY="4.125" FillColor="Green" />
-        <EntityTypeShape EntityType="ModelBiblioteca.Prestamo" Width="1.5" PointX="11.625" PointY="1.125" />
+        <EntityTypeShape EntityType="ModelBiblioteca.Cliente" Width="1.5" PointX="11.875" PointY="4" FillColor="Green" />
+        <EntityTypeShape EntityType="ModelBiblioteca.Prestamo" Width="1.875" PointX="11.625" PointY="1" />
         <AssociationConnector Association="ModelBiblioteca.ClientePrestamo" />
         <EntityTypeShape EntityType="ModelBiblioteca.DetallesPrestamoCopia" Width="2" PointX="8.625" PointY="1" FillColor="Olive" />
         <AssociationConnector Association="ModelBiblioteca.PrestamoDetallePrestamo" />
         <AssociationConnector Association="ModelBiblioteca.CopiaDetallePrestamo" />
         <AssociationConnector Association="ModelBiblioteca.CategoriaLibro" />
-        <EntityTypeShape EntityType="ModelBiblioteca.DetallesLibroAutor" Width="1.5" PointX="1.125" PointY="0.875" FillColor="Olive" />
-        <EntityTypeShape EntityType="ModelBiblioteca.Autor" Width="1.5" PointX="1.125" PointY="3.625" FillColor="Green" />
+        <EntityTypeShape EntityType="ModelBiblioteca.DetallesLibroAutor" Width="1.75" PointX="1.125" PointY="0.875" FillColor="Olive" />
+        <EntityTypeShape EntityType="ModelBiblioteca.Autor" Width="1.625" PointX="1.125" PointY="3.625" FillColor="Green" />
         <AssociationConnector Association="ModelBiblioteca.AutorDetalleLibroAutor" />
         <AssociationConnector Association="ModelBiblioteca.LibroDetalleLibroAutor" />
       </Diagram>
