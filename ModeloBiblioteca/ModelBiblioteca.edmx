@@ -26,7 +26,7 @@
             <End Role="Cliente" EntitySet="Clientes" />
             <End Role="Prestamo" EntitySet="Prestamos" />
           </AssociationSet>
-          <EntitySet Name="DetallesPrestamo" EntityType="ModelBiblioteca.DetallePrestamo" />
+          <EntitySet Name="DetallesPrestamo" EntityType="ModelBiblioteca.DetallesPrestamoCopia" />
           <AssociationSet Name="PrestamoDetallePrestamo" Association="ModelBiblioteca.PrestamoDetallePrestamo">
             <End Role="Prestamo" EntitySet="Prestamos" />
             <End Role="DetallePrestamo" EntitySet="DetallesPrestamo" />
@@ -38,6 +38,16 @@
           <AssociationSet Name="CategoriaLibro" Association="ModelBiblioteca.CategoriaLibro">
             <End Role="Categoria" EntitySet="Materias" />
             <End Role="Libro" EntitySet="Libros" />
+          </AssociationSet>
+          <EntitySet Name="DetallesLibroAutorSet" EntityType="ModelBiblioteca.DetallesLibroAutor" />
+          <EntitySet Name="AutorSet" EntityType="ModelBiblioteca.Autor" />
+          <AssociationSet Name="AutorDetalleLibroAutor" Association="ModelBiblioteca.AutorDetalleLibroAutor">
+            <End Role="Autor" EntitySet="AutorSet" />
+            <End Role="DetalleLibroAutor" EntitySet="DetallesLibroAutorSet" />
+          </AssociationSet>
+          <AssociationSet Name="LibroDetalleLibroAutor" Association="ModelBiblioteca.LibroDetalleLibroAutor">
+            <End Role="Libro" EntitySet="Libros" />
+            <End Role="DetalleLibroAutor" EntitySet="DetallesLibroAutorSet" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Categoria">
@@ -57,10 +67,10 @@
           <Property Name="Codigo" Type="String" Nullable="false" />
           <Property Name="Titulo" Type="String" Nullable="false" />
           <Property Name="ISBN" Type="String" Nullable="false" />
-          <Property Name="Autor" Type="String" Nullable="false" />
           <NavigationProperty Name="Copias" Relationship="ModelBiblioteca.LibroCopia" FromRole="Libro" ToRole="Copia" />
           <NavigationProperty Name="Categoria" Relationship="ModelBiblioteca.CategoriaLibro" FromRole="Libro" ToRole="Categoria" />
           <Property Name="CategoriaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DetalleLibroAutor" Relationship="ModelBiblioteca.LibroDetalleLibroAutor" FromRole="Libro" ToRole="DetalleLibroAutor" />
         </EntityType>
         <EntityType Name="Copia">
           <Key>
@@ -90,9 +100,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Cedula" Type="String" Nullable="false" />
-          <Property Name="Nombres" Type="String" Nullable="false" />
-          <Property Name="Apellidos" Type="String" Nullable="false" />
+          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="14" />
+          <Property Name="Nombres" Type="String" Nullable="false" MaxLength="100" />
+          <Property Name="Apellidos" Type="String" Nullable="false" MaxLength="100" />
           <NavigationProperty Name="Prestamos" Relationship="ModelBiblioteca.ClientePrestamo" FromRole="Cliente" ToRole="Prestamo" />
         </EntityType>
         <EntityType Name="Prestamo">
@@ -119,7 +129,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="DetallePrestamo">
+        <EntityType Name="DetallesPrestamoCopia">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -131,7 +141,7 @@
         </EntityType>
         <Association Name="PrestamoDetallePrestamo">
           <End Type="ModelBiblioteca.Prestamo" Role="Prestamo" Multiplicity="1" />
-          <End Type="ModelBiblioteca.DetallePrestamo" Role="DetallePrestamo" Multiplicity="*" />
+          <End Type="ModelBiblioteca.DetallesPrestamoCopia" Role="DetallePrestamo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Prestamo">
               <PropertyRef Name="Id" />
@@ -143,7 +153,7 @@
         </Association>
         <Association Name="CopiaDetallePrestamo">
           <End Type="ModelBiblioteca.Copia" Role="Copia" Multiplicity="1" />
-          <End Type="ModelBiblioteca.DetallePrestamo" Role="DetallePrestamo" Multiplicity="*" />
+          <End Type="ModelBiblioteca.DetallesPrestamoCopia" Role="DetallePrestamo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Copia">
               <PropertyRef Name="Id" />
@@ -162,6 +172,50 @@
             </Principal>
             <Dependent Role="Libro">
               <PropertyRef Name="CategoriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DetallesLibroAutor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Autor" Relationship="ModelBiblioteca.AutorDetalleLibroAutor" FromRole="DetalleLibroAutor" ToRole="Autor" />
+          <Property Name="AutorId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Libro" Relationship="ModelBiblioteca.LibroDetalleLibroAutor" FromRole="DetalleLibroAutor" ToRole="Libro" />
+          <Property Name="LibroId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Autor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" Nullable="false" />
+          <Property Name="Nombres" Type="String" Nullable="false" />
+          <Property Name="Apellidos" Type="String" Nullable="false" />
+          <NavigationProperty Name="DetalleLibroAutor" Relationship="ModelBiblioteca.AutorDetalleLibroAutor" FromRole="Autor" ToRole="DetalleLibroAutor" />
+        </EntityType>
+        <Association Name="AutorDetalleLibroAutor">
+          <End Type="ModelBiblioteca.Autor" Role="Autor" Multiplicity="1" />
+          <End Type="ModelBiblioteca.DetallesLibroAutor" Role="DetalleLibroAutor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Autor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleLibroAutor">
+              <PropertyRef Name="AutorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LibroDetalleLibroAutor">
+          <End Type="ModelBiblioteca.Libro" Role="Libro" Multiplicity="1" />
+          <End Type="ModelBiblioteca.DetallesLibroAutor" Role="DetalleLibroAutor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libro">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleLibroAutor">
+              <PropertyRef Name="LibroId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
